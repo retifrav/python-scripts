@@ -25,3 +25,5 @@ python generate-iconset.py /path/to/original/icon.png
 ```
 
 Result (`icon.icns`) will be saved to `/path/to/original/`.
+
+More information in the following [article](https://retifrav.github.io/blog/2018/10/09/macos-convert-png-to-icns/).
