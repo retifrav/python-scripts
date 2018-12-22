@@ -16,7 +16,7 @@ if not (os.path.isdir(dir)):
     print("There is no such directory")
     raise SystemExit
 
-path = os.path.join(sys.argv[1], "*.mp3")
+path = os.path.join(dir, "*.mp3")
 
 for filename in glob(path):
     mp3file = EasyID3(filename)
