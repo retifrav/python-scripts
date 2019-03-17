@@ -22,7 +22,7 @@ destDir = pathlib.Path(originalPicture).parent
 
 iconsetDir = os.path.join(destDir, f"{fname}.iconset")
 if not (os.path.exists(iconsetDir)):
-    pathlib.Path(iconsetDir).mkdir(parents=False, exist_ok=True) 
+    pathlib.Path(iconsetDir).mkdir(parents=False, exist_ok=True)
 
 class IconParameters():
     width = 0
@@ -33,15 +33,19 @@ class IconParameters():
     def getIconName(self):
         if self.scale != 1:
             return f"icon_{self.width}x{self.width}{ext}"
-        else:        
+        else:
             return f"icon_{self.width//2}x{self.width//2}@2x{ext}"
 
 # https://developer.apple.com/design/human-interface-guidelines/macos/icons-and-images/app-icon#app-icon-sizes
 ListOfIconParameters = [
+    IconParameters(16, 1),
+    IconParameters(16, 2),
     IconParameters(32, 1),
     IconParameters(32, 2),
     IconParameters(64, 1),
     IconParameters(64, 2),
+    IconParameters(128, 1),
+    IconParameters(128, 2),
     IconParameters(256, 1),
     IconParameters(256, 2),
     IconParameters(512, 1),
