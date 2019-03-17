@@ -1,5 +1,7 @@
 # My Python scripts
 
+I always try to use the latest version of Python 3. Haven't tested any of the scripts with Python 2.
+
 - [ssh-known-hosts](#ssh-known-hosts)
 - [mp3-idv3-tags](#mp3-idv3-tags)
 - [generate-iconset](#generate-iconset)
@@ -68,6 +70,8 @@ New structure:
 ├── no-more-overlicensed
 ...
 ```
+
+It takes only one argument which is the path to folder with the files you want to reorganize:
 
 ``` bash
 python create-folders-for-files.py ~/Desktop/posts/
