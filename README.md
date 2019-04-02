@@ -6,6 +6,7 @@ I always try to use the latest version of Python 3. Haven't tested any of the sc
 - [mp3-idv3-tags](#mp3-idv3-tags)
 - [generate-iconset](#generate-iconset)
 - [oxps-to-pdf](#oxps-to-pdf)
+- [create-folders-for-files](#create-folders-for-files)
 - [tinyurl](#tinyurl)
 
 ## ssh-known-hosts
