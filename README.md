@@ -43,7 +43,7 @@ python oxps-to-pdf.py /path/to/folder/with/oxps/files
 
 ## create-folders-for-files 
 
-I needed that to reorganize my Octopress blog posts to a new folder structure for Hugo.
+I [needed that](http://retifrav.github.io/blog/2019/03/17/migrating-from-octopress-to-hugo/#reorganizing-the-posts) to reorganize my Octopress blog posts to a new folder structure for Hugo.
 
 Original structure:
 
@@ -81,8 +81,10 @@ python create-folders-for-files.py ~/Desktop/posts/
 
 ## tinyurl
 
-TinyURL caller:
+A [TinyURL](http://tinyurl.com) API caller:
 
 ``` bash
 python tinyurl.py http://example.org
 ```
+
+Part of [my Alfred workflow](http://retifrav.github.io/blog/2019/04/02/tinyurl-alfred-workflow/).
