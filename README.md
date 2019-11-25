@@ -8,6 +8,7 @@ I always try to use the latest version of Python 3. Haven't tested any of the sc
 - [oxps-to-pdf](#oxps-to-pdf)
 - [create-folders-for-files](#create-folders-for-files)
 - [tinyurl](#tinyurl)
+- [folders-creation-datetimes](#folders-creation-datetimes)
 
 ## ssh-known-hosts
 
@@ -88,3 +89,35 @@ python tinyurl.py http://example.org
 ```
 
 Part of [my Alfred workflow](http://retifrav.github.io/blog/2019/04/02/tinyurl-alfred-workflow/).
+
+## folders-creation-datetimes
+
+There is the following folders structure:
+
+```
+/tmp/revisions/
+├── 37829
+│   └── Tools
+├── 37976
+│   └── Tools
+└── 37993
+    └── Tools
+
+Nov 24 18:30 37829/Tools
+Nov 24 18:37 37976/Tools
+Nov 24 18:31 37993/Tools
+```
+
+Need to get UTC datetimes of `Tools` folders and form a list of SQL queries for inserting like this:
+
+``` sql
+insert into revisions(dt_published,release_id,revision,content_id) values('2019-11-24 17:31:07',1,'37993',3);
+insert into revisions(dt_published,release_id,revision,content_id) values('2019-11-24 17:30:21',1,'37829',3);
+insert into revisions(dt_published,release_id,revision,content_id) values('2019-11-24 17:37:17',1,'37976',3);
+```
+
+Run:
+
+```
+python folders-creation-datetimes.py /tmp/revisions/
+```
