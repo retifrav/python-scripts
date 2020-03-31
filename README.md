@@ -9,6 +9,7 @@ I always try to use the latest version of Python 3. Haven't tested any of the sc
 - [create-folders-for-files](#create-folders-for-files)
 - [tinyurl](#tinyurl)
 - [folders-creation-datetimes](#folders-creation-datetimes)
+- [getPossibleTestResults](#getpossibletestresults)
 
 ## ssh-known-hosts
 
@@ -42,7 +43,7 @@ Convert OXPS files into PDF. Requires `ghostscript`/`gxps` to be installed.
 python oxps-to-pdf.py /path/to/folder/with/oxps/files
 ```
 
-## create-folders-for-files 
+## create-folders-for-files
 
 I [needed that](http://retifrav.github.io/blog/2019/03/17/migrating-from-octopress-to-hugo/#reorganizing-the-posts) to reorganize my Octopress blog posts to a new folder structure for Hugo.
 
@@ -121,3 +122,7 @@ Run:
 ```
 python folders-creation-datetimes.py /tmp/revisions/
 ```
+
+## getPossibleTestResults
+
+There is some online test and you want to get all the possible results. Having a results URL like `http://mindmix.ru/result?t=23147&1=3&2=3&3=2&4=3&5=4&6=2&7=2&8=2&9=3&10=4`, you can send a 1000 requests with random values.
