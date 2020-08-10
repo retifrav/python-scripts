@@ -56,8 +56,36 @@ ListOfIconParameters = [
 
 # generate iconset
 for ip in ListOfIconParameters:
-    subprocess.call(["sips", "-z", str(ip.width), str(ip.width), originalPicture, "--out", os.path.join(iconsetDir, ip.getIconName())])
+    subprocess.call(
+        [
+            # option 1: sips
+            #"sips",
+            #"-z",
+            #str(ip.width),
+            #str(ip.width),
+            #originalPicture,
+            #"--out",
+
+            # option 2: ImageMagick
+            "magick",
+            "convert",
+            originalPicture,
+            "-resize",
+            str(ip.width),
+
+            os.path.join(iconsetDir, ip.getIconName())
+        ]
+    )
     #print(f"Generated {ip.getIconName()}")
 
 # convert iconset to icns file
-subprocess.call(["iconutil", "-c", "icns", iconsetDir, "-o", os.path.join(destDir, f"{fname}.icns")])
+subprocess.call(
+    [
+        "iconutil",
+        "-c",
+        "icns",
+        iconsetDir,
+        "-o",
+        os.path.join(destDir, f"{fname}.icns")
+    ]
+)
