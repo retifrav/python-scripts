@@ -1,4 +1,3 @@
-import os
 import sys
 import pathlib
 import subprocess
@@ -11,30 +10,37 @@ if len(sys.argv) > 2:
     print("Too many arguments")
     raise SystemExit
 
-originalPicture = sys.argv[1]
-if not (os.path.isfile(originalPicture)):
+originalPicture = pathlib.Path(sys.argv[1])
+if not (originalPicture.is_file()):
     print(f"There is no such file: {sys.argv[1]}")
     raise SystemExit
+
+# if False, then sips will be used instead of ImageMagick
+useMagick = True
 
 fname = pathlib.Path(originalPicture).stem
 ext = pathlib.Path(originalPicture).suffix
 destDir = pathlib.Path(originalPicture).parent
 
-iconsetDir = os.path.join(destDir, f"{fname}.iconset")
-if not (os.path.exists(iconsetDir)):
+iconsetDir = pathlib.Path(destDir / f"{fname}.iconset")
+if not (iconsetDir.is_dir()):
     pathlib.Path(iconsetDir).mkdir(parents=False, exist_ok=True)
+
 
 class IconParameters():
     width = 0
     scale = 1
-    def __init__(self,width,scale):
+
+    def __init__(self, width, scale):
         self.width = width
         self.scale = scale
+
     def getIconName(self):
         if self.scale != 1:
             return f"icon_{self.width}x{self.width}{ext}"
         else:
             return f"icon_{self.width//2}x{self.width//2}@2x{ext}"
+
 
 # https://developer.apple.com/design/human-interface-guidelines/macos/icons-and-images/app-icon#app-icon-sizes
 ListOfIconParameters = [
@@ -56,26 +62,29 @@ ListOfIconParameters = [
 
 # generate iconset
 for ip in ListOfIconParameters:
-    subprocess.call(
-        [
-            # option 1: sips
-            #"sips",
-            #"-z",
-            #str(ip.width),
-            #str(ip.width),
-            #originalPicture,
-            #"--out",
-
-            # option 2: ImageMagick
-            "magick",
-            "convert",
-            originalPicture,
-            "-resize",
-            str(ip.width),
-
-            os.path.join(iconsetDir, ip.getIconName())
-        ]
-    )
+    if useMagick:
+        subprocess.call(
+            [
+                "magick",
+                "convert",
+                originalPicture,
+                "-resize",
+                str(ip.width),
+                iconsetDir / ip.getIconName()
+            ]
+        )
+    else:
+        subprocess.call(
+            [
+                "sips",
+                "-z",
+                str(ip.width),
+                str(ip.width),
+                originalPicture,
+                "--out",
+                iconsetDir / ip.getIconName()
+            ]
+        )
     #print(f"Generated {ip.getIconName()}")
 
 # convert iconset to icns file
@@ -86,6 +95,6 @@ subprocess.call(
         "icns",
         iconsetDir,
         "-o",
-        os.path.join(destDir, f"{fname}.icns")
+        destDir / f"{fname}.icns"
     ]
 )
