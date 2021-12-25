@@ -5,8 +5,7 @@ CoubSettings = {
     "likesEndpoint": "".join((
         "https://coub.com/api/v2/timeline/likes",
         "?all=true",
-        "&order_by=date",
-        "&page="
+        "&order_by=date"
     )),
     "likesTotalPages": 1,
     "baseViewURL": "https://coub.com/view/",
@@ -22,7 +21,7 @@ whereToSaveLikesDetails = "/tmp/my-coub-likes-details.json"
 def getLikesFromCoub(pageNumber):
     try:
         coubRequest = requests.get(
-            f"{CoubSettings['likesEndpoint']}{pageNumber}",
+            f"{CoubSettings['likesEndpoint']}&page={pageNumber}",
             headers={"Cookie": CoubSettings["aythenticationCookie"]}
         )
         if coubRequest.status_code != 200:
