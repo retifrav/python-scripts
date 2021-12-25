@@ -126,7 +126,9 @@ There is some online test and you want to get all the possible results. Having a
 
 ## coub-likes-list
 
-Getting a list of liked [coubs](https://coub.com/). Before running it, replace the following:
+Getting a list of liked [coubs](https://coub.com/). Created for [this issue/question](https://github.com/HelpSeeker/CoubDownloader/issues/11).
+
+Before running the script, replace the following:
 
 - `aythenticationCookie`: your actual `Cookie` HTTP header value, you get it from the browser console;
 - `whereToSaveLikesList`: path to the file where to save the list of links of your liked coubs;
