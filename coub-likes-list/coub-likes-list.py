@@ -1,6 +1,4 @@
 import requests
-import pathlib
-import subprocess
 import json
 
 CoubSettings = {
