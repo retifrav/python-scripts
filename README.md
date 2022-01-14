@@ -13,6 +13,7 @@ I always try to use the latest version of Python 3. Haven't tested any of the sc
 - [folders-creation-datetimes](#folders-creation-datetimes)
 - [get-possible-quiz-results](#get-possible-quiz-results)
 - [coub-likes-list](#coub-likes-list)
+- [pack-the-folder](#pack-the-folder)
 
 <!-- /MarkdownTOC -->
 
@@ -144,4 +145,27 @@ Once you have the resulting file with links, you can download all of them using 
 
 ``` sh
 $ python /path/to/coub-downloader/coub.py /tmp/my-coub-likes.txt
+```
+
+## pack-the-folder
+
+Pack the current folder into a ZIP archive. Creates an archive in a folder one level up and then moves it into the current folder.
+
+``` sh
+$ ls -L1 .
+Screenshot1.png
+Screenshot2.png
+document.pdf
+pack-the-folder.py
+some/
+
+$ python ./pack-the-folder.py
+
+$ ls -L1 .
+Screenshot1.png
+Screenshot2.png
+document.pdf
+folder.zip
+pack-the-folder.py
+some/
 ```
