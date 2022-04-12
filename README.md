@@ -14,6 +14,7 @@ I always try to use the latest version of Python 3. Haven't tested any of the sc
 - [get-possible-quiz-results](#get-possible-quiz-results)
 - [coub-likes-list](#coub-likes-list)
 - [pack-the-folder](#pack-the-folder)
+- [srt-translation-generator](#srt-translation-generator)
 
 <!-- /MarkdownTOC -->
 
@@ -168,4 +169,12 @@ document.pdf
 folder.zip
 pack-the-folder.py
 some/
+```
+
+## srt-translation-generator
+
+Creates a copy of an original SRT file, keeping only the titles numbers and time codes. The generated copy can be used for translating the original file.
+
+``` sh
+$ python ./srt-translation-generator.py --help
 ```
