@@ -52,7 +52,7 @@ def main() -> None:
         ))
     )
     argParser.add_argument(
-        "--srt-encoding",
+        "--encoding",
         metavar="utf_8",
         default="utf_8",
         help="encoding of the original SRT file (default: %(default)s)"
@@ -89,20 +89,24 @@ def main() -> None:
         f"{originalSrt.stem}-{cliArgs.lang}{originalSrt.suffix}"
     )
 
-    with open(originalSrt,
-              "r",
-              encoding=cliArgs.srt_encoding
-              ) as originalFile, \
-         open(generatedSrt,
-              "w",
-              encoding="utf-8"
-              ) as generatedFile:
-        previousLineWasEmpty: bool = False
-        previousLineWasTitleNumber: bool = False
-        currentTitleNumber: int = 0
-        try:
+    # a better implementation can be found in
+    # https://github.com/retifrav/marlant/blob/master/marlant.py
+    # under MarlantCreateTranslationFileCommand()
+    try:
+        with open(originalSrt,
+                  "r",
+                  encoding=cliArgs.encoding
+                  ) as originalFile, \
+             open(generatedSrt,
+                  "w",
+                  encoding="utf-8"
+                  ) as generatedFile:
+            previousLineWasEmpty: bool = False
+            previousLineWasTitleNumber: bool = False
+            currentTitleNumber: int = 0
+
             for index, line in enumerate(originalFile):
-                line: str = line.strip()
+                line = line.strip()
                 # print(f"Line {index}: {line}")
                 if not line:
                     if previousLineWasEmpty:
@@ -162,14 +166,14 @@ def main() -> None:
                             generatedFile.write("\n")
                         previousLineWasTitleNumber = False
                     previousLineWasEmpty = False
-        except UnicodeDecodeError as ex:
-            raise SystemExit(
-                " ".join((
-                    "[ERROR] It looks like the original SRT file is not",
-                    "in UTF-8 encoding. Try to provide a different one",
-                    "with --srt-encoding, for example latin_1 or cp1251"
-                ))
-            )
+    except UnicodeDecodeError as ex:
+        raise SystemExit(
+            " ".join((
+                "[ERROR] It looks like the original SRT file is not",
+                "in UTF-8 encoding. Try to provide a different one",
+                "with --encoding, for example latin_1 or cp1251"
+            ))
+        )
 
 
 if __name__ == "__main__":
