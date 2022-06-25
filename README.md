@@ -15,6 +15,7 @@ I always try to use the latest version of Python 3. Haven't tested any of the sc
 - [coub-likes-list](#coub-likes-list)
 - [pack-the-folder](#pack-the-folder)
 - [srt-translation-generator](#srt-translation-generator)
+- [normalize-filenames](#normalize-filenames)
 
 <!-- /MarkdownTOC -->
 
@@ -178,3 +179,47 @@ Creates a copy of an original SRT file, keeping only the titles numbers and time
 ``` sh
 $ python ./srt-translation-generator.py --help
 ```
+
+## normalize-filenames
+
+Normalizing the names of files in a given directory:
+
+- replaces spaces and underscores with dashes
+- removes non-alphanumeric symbols
+- makes all letters small
+
+```
+$ ls -L1 /path/to/somewhere
+Dota 2 WTF Moments 444.mkv
+Johnny Depp Performs ‘Nothing Else Matters’ (Metallica Cover) During His Testimony, Then Wins Case.mkv
+Video 4 Det snør!!!❄️❄️❄️❄️.mkv
+dota-2-wtf-moments-444.mkv
+
+$ python /path/to/normalize-filenames.py /path/to/somewhere --not-a-drill
+THIS IS NOT A DRILL!
+All the files in /path/to/somewhere folder will be renamed.
+Hopefully, you've made a backup.
+
+- renaming: Video 4 Det snør!!!❄️❄️❄️❄️.mkv
+OK
+
+- renaming: dota-2-wtf-moments-444.mkv
+[WARNING] The file dota-2-wtf-moments-444.mkv already exists
+
+- renaming: Johnny Depp Performs ‘Nothing Else Matters’ (Metallica Cover) During His Testimony, Then Wins Case.mkv
+OK
+
+- renaming: Dota 2 WTF Moments 444.mkv
+[WARNING] The file dota-2-wtf-moments-444.mkv already exists
+
+---
+Total files processed: 2
+
+$ ls -L1 /path/to/somewhere
+Dota 2 WTF Moments 444.mkv
+dota-2-wtf-moments-444.mkv
+johnny-depp-performs-nothing-else-matters-metallica-cover-during-his-testimony-then-wins-case.mkv
+video-4-det-snr.mkv
+```
+
+
