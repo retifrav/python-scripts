@@ -1,7 +1,9 @@
-from typing import Tuple
+from unidecode import unidecode
 from datetime import datetime
+from typing import Tuple
 import argparse
 import pathlib
+import json
 import sys
 import re
 import os
@@ -22,16 +24,18 @@ noLog: bool = False
 
 
 def normalizeFilename(originalFilename: str) -> str:
+    # make all letters small
+    newFilename: str = originalFilename.lower()
     # replace whitespaces with dashes
-    newFilename: str = re.sub(r"\s+", "-", originalFilename)
+    newFilename = re.sub(r"\s+", "-", newFilename)
     # replace underscores with dashes
     newFilename = re.sub("_", "-", newFilename)
+    # transliterate to Latin
+    newFilename = unidecode(newFilename)
     # remove non-alphanumeric and non-dash symbols
     newFilename = re.sub(r"[^a-zA-Z0-9\-]+", "", newFilename)
     # replace multiple dashes with a single dash
     newFilename = re.sub(r"\-+", "-", newFilename)
-    # make all letters small
-    newFilename = newFilename.lower()
     # return resulting filename
     return newFilename
 
@@ -127,61 +131,61 @@ def main() -> None:
             ))
         )
 
-    filesCnt: int = 0
-    logFile: str = f"./{timeNow}-renamings.log"
-    if noLog or not notADrill:
-        logFile = os.devnull
-    with open(logFile, "w") as renamingsLog:
-        renamingsLog.write(timeNow)
-        renamingsLog.write(f"\nThe log of renamings in {pathToFolder}\n---\n\n")
 
-        for p in pathToFolder.iterdir():
-            currentItem = pathlib.Path(p)
-            if p.is_file():
-                if p.name.startswith(".") and not withDotFiles:
-                    continue
-                print(f"\n- renaming: {p.name}")
-                newFilename: str = f"{normalizeFilename(p.stem)}{p.suffix}"
-                newFile: pathlib.Path = pathlib.Path(pathToFolder / newFilename)
-                if not notADrill:
-                    print(f"[DRY RUN] New filename will be: {newFilename}")
-                if (newFile.exists()):
-                    print(f"[WARNING] The file {newFilename} already exists")
-                    continue
-                if notADrill:
-                    try:
-                        p.rename(newFile)
-                        try:
-                            renamingsLog.write(
-                                "".join((
-                                    f"{filesCnt+1}:\n",
-                                    f"  {p.name}\n",
-                                    "->\n",
-                                    f"  {newFile.name}\n",
-                                    "\n"
-                                ))
-                            )
-                        except Exception as ex:
-                            print(f"[ERROR] Couldn't write to log: {ex}")
-                        print("OK")
-                    except Exception as ex:
-                        print(
-                            f"[ERROR] Couldn't rename {p.name}: {ex}",
-                            file=sys.stderr
+    filesCnt: int = 0
+    renamings = []
+    for p in pathToFolder.iterdir():
+        currentItem = pathlib.Path(p)
+        if p.is_file():
+            if p.name.startswith(".") and not withDotFiles:
+                continue
+            print(f"\n- renaming: {p.name}")
+            newFilename: str = f"{normalizeFilename(p.stem)}{p.suffix}"
+            newFile: pathlib.Path = pathlib.Path(pathToFolder / newFilename)
+            if not notADrill:
+                print(f"[DRY RUN] New filename will be: {newFilename}")
+            if (newFile.exists()):
+                print(f"[WARNING] The file {newFilename} already exists")
+                continue
+            if notADrill:
+                try:
+                    p.rename(newFile)
+                    renamings.append(
+                        {
+                            "id": filesCnt+1,
+                            "original": p.name,
+                            "renamed": newFile.name
+                        }
                     )
-                filesCnt += 1
-        print()
-        if notADrill:
-            finalMessage: str = f"---\nTotal files processed: {filesCnt}"
-            renamingsLog.write(f"{finalMessage}\n")
-            print(finalMessage)
-        else:
-            print(
-                " ".join((
-                    "---\n[DRY RUN] Total number of files",
-                    f"that would be processed: {filesCnt}"
-                ))
-            )
+                    print("OK")
+                except Exception as ex:
+                    print(
+                        f"[ERROR] Couldn't rename {p.name}: {ex}",
+                        file=sys.stderr
+                )
+            filesCnt += 1
+    print()
+    if notADrill:
+        if not noLog:
+            try:
+                renamingsLog = {}
+                renamingsLog["dateTime"] = timeNow
+                renamingsLog["originalPath"] = pathToFolder.as_posix()
+                renamingsLog["totalRenamings"] = filesCnt
+                renamingsLog["renamings"] = renamings
+                with open(f"./{timeNow}-renamings-log.json", "w") as logFile:
+                    json.dump(renamingsLog, logFile, indent=4)
+            except Exception as ex:
+                print(f"[ERROR] Couldn't write to log: {ex}")
+        finalMessage: str = f"---\nTotal files processed: {filesCnt}"
+        print(finalMessage)
+    else:
+        print(
+            " ".join((
+                "---\n[DRY RUN] Total number of files",
+                f"that would be processed: {filesCnt}"
+            ))
+        )
 
 
 if __name__ == "__main__":
