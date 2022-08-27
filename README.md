@@ -16,6 +16,7 @@ I always try to use the latest version of Python 3. Haven't tested any of the sc
 - [pack-the-folder](#pack-the-folder)
 - [srt-translation-generator](#srt-translation-generator)
 - [normalize-filenames](#normalize-filenames)
+- [parallelization-example](#parallelization-example)
 
 <!-- /MarkdownTOC -->
 
@@ -222,4 +223,10 @@ johnny-depp-performs-nothing-else-matters-metallica-cover-during-his-testimony-t
 video-4-det-snr.mkv
 ```
 
+## parallelization-example
 
+An example of parallelizing some function.
+
+``` sh
+$ python ./parallelization-example.py --help
+```
