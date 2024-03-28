@@ -1,6 +1,6 @@
 # My Python scripts
 
-I always try to use the latest version of Python 3. Haven't tested any of the scripts with Python 2.
+Just some scripts I made to carry out certain tasks or try out various things.
 
 <!-- MarkdownTOC -->
 
