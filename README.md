@@ -17,6 +17,7 @@ Just some scripts I made to carry out certain tasks or try out various things.
 - [srt-translation-generator](#srt-translation-generator)
 - [normalize-filenames](#normalize-filenames)
 - [parallelization-example](#parallelization-example)
+- [padding-indexes](#padding-indexes)
 
 <!-- /MarkdownTOC -->
 
@@ -229,4 +230,31 @@ An example of parallelizing some function.
 
 ``` sh
 $ python ./parallelization-example.py --help
+```
+
+## padding-indexes
+
+Pads (*to "left" and "right"*) every element in the list of indexes for some other list/array:
+
+``` py
+paddedList = addPaddingToList(
+    incomingList, # the original list
+    3,            # how many positions/indexes to "pad"
+    32            # maximum allowed index
+)
+```
+
+So for original list like this:
+
+```
+[2, 4, 11, 19, 21, 30]
+```
+
+it will return the following "padded" list:
+
+```
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32]
+```
+
+It should have also contained `33`, but we've limited it with `32`.
 ```
