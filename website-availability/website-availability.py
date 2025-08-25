@@ -25,8 +25,7 @@ argParser = argparse.ArgumentParser(
     description="".join((
         "-= %(prog)s =-\n\n",
         "Checks availability of a website. Mostly based on 200 HTTP ",
-        "response status code. Meant to be used in Home Assistant ",
-        "command_line sensors, hence the basic 0/1 exit codes.\n\n",
+        "response status code.\n\n",
         f"Copyright (C) 2025-{datetime.now().year} ",
         "Declaration of VAR\n",
         "License: GPLv3"
@@ -79,13 +78,16 @@ try:
         raise SystemExit(0)
     else:
         logging.error(f"HTTP response status code: {r.status_code}")
+        raise SystemExit(1)
 except requests.exceptions.ConnectionError:
     logging.error("Host unreachable or a DNS issue")
+    raise SystemExit(14)
 except requests.exceptions.Timeout:
     logging.error("Request timeout")
+    raise SystemExit(13)
 except requests.exceptions.RequestException as ex:
     logging.error(f"Unexpected error: {e}")
+    raise SystemExit(12)
 except Exception as ex:
     logging.error(f"An even more unexpected error: {ex}")
-
-raise SystemExit(1)
+    raise SystemExit(11)

@@ -280,5 +280,5 @@ $ echo $?
 $ python ./website-availability.py https://some.unreachable.host.in.a.galaxy.far.far.away/
 [ERROR] Host unreachable or a DNS issue
 $ echo $?
-1
+14
 ```
