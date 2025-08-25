@@ -18,6 +18,7 @@ Just some scripts I made to carry out certain tasks or try out various things.
 - [normalize-filenames](#normalize-filenames)
 - [parallelization-example](#parallelization-example)
 - [padding-indexes](#padding-indexes)
+- [website-availability](#website-availability)
 
 <!-- /MarkdownTOC -->
 
@@ -257,4 +258,27 @@ it will return the following "padded" list:
 ```
 
 It should have also contained `33`, but we've limited it with `32`.
+
+## website-availability
+
+Checks website availability based on HTTP responses status code (*and request exceptions*):
+
+``` sh
+$ python ./website-availability.py https://decovar.dev/
+$ echo $?
+0
+
+$ python ./website-availability.py http://decovar.dev/
+[ERROR] HTTP response status code: 301
+$ echo $?
+1
+
+$ python ./website-availability.py http://decovar.dev/ --allow-redirects
+$ echo $?
+0
+
+$ python ./website-availability.py https://some.unreachable.host.in.a.galaxy.far.far.away/
+[ERROR] Host unreachable or a DNS issue
+$ echo $?
+1
 ```
