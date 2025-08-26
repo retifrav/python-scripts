@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 import argparse
-from urllib.parse import urlparse, ParseResult
+from urllib.parse import urlparse
 import sys
 import requests
 # from requests_toolbelt.utils import dump
@@ -10,7 +10,7 @@ loggingLevel: int = logging.INFO
 loggingFormat: str = "[%(levelname)s] %(message)s"
 
 
-def checkURL(urlCandidate: str) -> ParseResult:
+def checkURL(urlCandidate: str) -> str:
     result = urlparse(urlCandidate)
     if all([result.scheme, result.netloc]):
         return urlCandidate
@@ -45,6 +45,11 @@ argParser.add_argument(
     help="automatically redirect in case of 301 (default: %(default)s)"
 )
 argParser.add_argument(
+    "--use-get",
+    action='store_true',
+    help="use GET instead of HEAD (default: %(default)s)"
+)
+argParser.add_argument(
     "--debug",
     action='store_true',
     help="enable debug/dev mode (default: %(default)s)"
@@ -53,6 +58,7 @@ cliArgs = argParser.parse_args()
 
 websiteURL: str = cliArgs.websiteURL
 allowRedirects: bool = cliArgs.allow_redirects
+useGet: bool = cliArgs.use_get
 debugMode: bool = cliArgs.debug
 
 if debugMode:
@@ -72,7 +78,11 @@ logging.debug("-")
 # ---
 
 try:
-    r = requests.head(websiteURL, allow_redirects=allowRedirects)
+    r = (
+        requests.get(websiteURL, allow_redirects=allowRedirects)
+        if useGet else
+        requests.head(websiteURL, allow_redirects=allowRedirects)
+    )
     # logging.debug(f"Raw headers:\n{dump.dump_all(r).decode()}")
     if r.status_code == 200:
         raise SystemExit(0)
@@ -86,7 +96,7 @@ except requests.exceptions.Timeout:
     logging.error("Request timeout")
     raise SystemExit(13)
 except requests.exceptions.RequestException as ex:
-    logging.error(f"Unexpected error: {e}")
+    logging.error(f"Unexpected error: {ex}")
     raise SystemExit(12)
 except Exception as ex:
     logging.error(f"An even more unexpected error: {ex}")

@@ -277,6 +277,15 @@ $ python ./website-availability.py http://decovar.dev/ --allow-redirects
 $ echo $?
 0
 
+$ python ./website-availability.py https://some.host.does.not.accept.head/
+[ERROR] HTTP response status code: 405
+$ echo $?
+1
+
+$ python ./website-availability.py https://some.host.does.not.accept.head/ --use-get
+$ echo $?
+0
+
 $ python ./website-availability.py https://some.unreachable.host.in.a.galaxy.far.far.away/
 [ERROR] Host unreachable or a DNS issue
 $ echo $?
