@@ -59,7 +59,7 @@ CoubSettings["likesTotalPages"] = likesCurrentPage["total_pages"]
 print(f"Total pages: {CoubSettings['likesTotalPages']}")
 
 # process the first page, since we already have it
-print(f"- processing page #1...")
+print("- processing page #1...")
 for likedCoub in likesCurrentPage['coubs']:
     extractInfoFromCoub(likedCoub)
 

@@ -19,6 +19,7 @@ Just some scripts I made to carry out certain tasks or try out various things.
 - [parallelization-example](#parallelization-example)
 - [padding-indexes](#padding-indexes)
 - [website-availability](#website-availability)
+- [teams-leave-group](#teams-leave-group)
 
 <!-- /MarkdownTOC -->
 
@@ -291,3 +292,13 @@ $ python ./website-availability.py https://some.unreachable.host.in.a.galaxy.far
 $ echo $?
 14
 ```
+
+## teams-leave-group
+
+That's for when some piece of shit adds you to a group in Microsoft Teams and also makes it so that you are re-added there automatically every day. So then after you get the group ID (*hardcoded as `TEAM_ID` in the script*), you could automate your leaving it:
+
+``` sh
+$ python ./teams-leave-group.py --token YOUR-MICROSOFT-GRAPH-TOKEN
+```
+
+Too bad that chances are your organization does not allow regular users to perform such actions via API.
