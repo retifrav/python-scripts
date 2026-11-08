@@ -20,6 +20,7 @@ Just some scripts I made to carry out certain tasks or try out various things.
 - [padding-indexes](#padding-indexes)
 - [website-availability](#website-availability)
 - [teams-leave-group](#teams-leave-group)
+- [vobsub-adjust](#vobsub-adjust)
 
 <!-- /MarkdownTOC -->
 
@@ -302,3 +303,20 @@ $ python ./teams-leave-group.py --token YOUR-MICROSOFT-GRAPH-TOKEN
 ```
 
 Too bad that chances are your organization does not allow regular users to perform such actions via API.
+
+## vobsub-adjust
+
+Repositioning and narrowing VobSub:
+
+``` sh
+$ python ./vobsub-adjust.py subtitles.idx subtitles-adjusted.idx --scale-x 0.9 --shift-y 50 --video-height 816
+Canvas 720x576, 850 subtitles
+  Text now sits in rows 475-529
+  Room below the text: median 46 px (about 65 video px), smallest 46 px (about 65 video px)
+  Transparent space under the text inside its display area: median 45 px (about 64 video px)
+  Text width: median 437 px, widest 616 px
+  After: text in rows 510-564
+Wrote subtitles-adjusted.idx and subtitles-adjusted.sub
+```
+
+More details [here](/ffmpeg/index.md#adjusting-dvd_subtitle-position-and-stretch).
